@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Management System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f8;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 30px;
+      border-collapse: collapse;
+    }
+
+    table, th, td {
+      border: 1px solid #999;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: center;
+    }
+
+    .delete-btn {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Student Management System</h2>
+
+  <div class="form-container">
+    <input type="text" id="name" placeholder="Enter Student Name" required>
+    <input type="text" id="roll" placeholder="Enter Roll Number" required>
+    <input type="text" id="grade" placeholder="Enter Grade" required>
+    <button onclick="addStudent()">Add Student</button>
+  </div>
+
+  <table id="studentTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Roll No.</th>
+        <th>Grade</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Student rows will appear here -->
+    </tbody>
+  </table>
+
+  <script>
+    const students = [];
+
+    function addStudent() {
+      const name = document.getElementById("name").value.trim();
+      const roll = document.getElementById("roll").value.trim();
+      const grade = document.getElementById("grade").value.trim();
+
+      if (!name || !roll || !grade) {
+        alert("Please fill all fields.");
+        return;
+      }
+
+      students.push({ name, roll, grade });
+      renderTable();
+      clearInputs();
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById("studentTable").getElementsByTagName("tbody")[0];
+      tbody.innerHTML = "";
+
+      students.forEach((student, index) => {
+        const row = tbody.insertRow();
+        row.innerHTML = `
+          <td>${student.name}</td>
+          <td>${student.roll}</td>
+          <td>${student.grade}</td>
+          <td><button class="delete-btn" onclick="deleteStudent(${index})">Delete</button></td>
+        `;
+      });
+    }
+
+    function deleteStudent(index) {
+      students.splice(index, 1);
+      renderTable();
+    }
+
+    function clearInputs() {
+      document.getElementById("name").value = "";
+      document.getElementById("roll").value = "";
+      document.getElementById("grade").value = "";
+    }
+  </script>
+
+</body>
+</html>
